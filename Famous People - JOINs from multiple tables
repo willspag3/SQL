@@ -1,0 +1,55 @@
+CREATE TABLE Famous_People (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, occupation TEXT);
+
+INSERT INTO Famous_People (name, occupation) VALUES ("Joe Jonas", "singer");
+INSERT INTO Famous_People (name, occupation) VALUES ("Florence Pugh", "actor");
+INSERT INTO Famous_People (name, occupation) VALUES ("Lizzo", "singer");
+INSERT INTO Famous_People (name, occupation) VALUES ("Ali Wong", "comedian");
+
+CREATE TABLE Famous_Works (id INTEGER PRIMARY KEY AUTOINCREMENT, notable_works TEXT, year INTEGER);
+INSERT INTO Famous_Works (notable_works, year) VALUES ("Burnin' Up", 2008);
+INSERT INTO Famous_Works (notable_works, year) VALUES ("Don't Worry Darling", 2022);
+INSERT INTO Famous_Works (notable_works, year) VALUES ("Special", 2022);
+INSERT INTO Famous_Works (notable_works, year) VALUES ("Hard Knock Wife", 2018);
+
+CREATE TABLE Famous_People_Hometown (id INTEGER PRIMARY KEY AUTOINCREMENT, hometown TEXT);
+INSERT INTO Famous_People_Hometown (hometown) VALUES ("Casa Grande, AZ");
+INSERT INTO Famous_People_Hometown (hometown) VALUES ("Oxford, England");
+INSERT INTO Famous_People_Hometown (hometown) VALUES ("Houston, TX");
+INSERT INTO Famous_People_Hometown (hometown) VALUES ("Pacific Heights, CA");
+
+**Shows famous people, their popular works, and the year of the work**
+
+SELECT Famous_People.name, Famous_Works.notable_works, Famous_Works.year
+FROM Famous_people
+JOIN Famous_works 
+ON Famous_People.id=Famous_Works.id;
+
+**Shows famous people who had popular works in 2022**
+
+SELECT Famous_People.name, Famous_Works.notable_works, Famous_Works.year
+FROM Famous_people
+JOIN Famous_works 
+ON Famous_People.id=Famous_Works.id
+WHERE Famous_Works.year=2022;
+
+**Shows each famous person and their occupation**
+
+SELECT Famous_People.name, job.occupation
+FROM Famous_People
+JOIN Famous_People job
+ON Famous_People.id=job.id;
+
+**Shows famous people who are singers**
+
+SELECT Famous_People.name, job.occupation
+FROM Famous_People
+JOIN Famous_People job
+ON Famous_People.id=job.id
+WHERE Famous_People.occupation="singer";
+
+**Shows famous people and their hometowns**
+
+SELECT Famous_People.name, Famous_People_Hometown.hometown
+FROM Famous_People
+JOIN Famous_People_Hometown
+ON Famous_People.id=Famous_People_Hometown.id;
