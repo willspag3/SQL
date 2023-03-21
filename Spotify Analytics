@@ -1,0 +1,62 @@
+For this project, I downloaded Spotify data from Kaggle. 
+This data explores the Top 50 most listened to songs on Spotify in 2021.
+Then I created a table to insert Spotify data into.
+Finally, I performed analytics on the data using SQL. 
+
+Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+
+1.	What was the most popular song of 2021 and who was the artist?
+
+Select artist_name, popularity 
+From BIT_DB.Spotifydata
+ORDER BY popularity DESC Limit 1;
+
+2.	What was the least popular song of 2021, whop was the artist, what was the song, and what was it’s danceability?
+
+Select artist_name, track_name, danceability, popularity 
+From BIT_DB.Spotifydata
+ORDER BY popularity ASC Limit 1;
+
+3.	How many times does each artist appear in the “Top 50” list?
+
+Select distinct artist_name, COUNT(track_ID)
+From BIT_DB.Spotifydata
+GROUP BY artist_name
+Having COUNT(track_ID)>0
+Order BY COUNT(track_ID) DESC;
+
+4.	What is the total danceability of each artist from highest to lowest?
+
+Select artist_name, SUM(danceability)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+Having SUM(danceability)>0
+Order BY SUM(danceability) DESC;
+
+5.	What song has the highest enery, and what is it’s tempo?
+
+Select track_name, energy, tempo
+FROM BIT_DB.Spotifydata
+ORDER by energy DESC LIMIT 1;
+
+
