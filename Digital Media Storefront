@@ -1,0 +1,91 @@
+In this SQL, I used data from a digital media storefront that included tables for artists, albums, media tracks, invoices, and customers.
+
+**Customers (their full names, customer ID, and country) who are not in the US.
+
+Select FirstName, LastName,CustomerId,Country
+FROM chinook.customers 
+Where Country <> 'USA';
+
+**Only the customers from Brazil.
+
+Select FirstName, LastName, Country
+From customers
+Where Country ='Brazil';
+
+**Invoices of customers who are from Brazil.
+
+Select a.FirstName, a.LastName, b.BillingCountry, b.InvoiceID, b.InvoiceDate
+From customers a
+Left Join invoices b
+ON a.CustomerId=b.CustomerId
+Where b.BillingCountry='Brazil';
+
+**Employees who are Sales Agents.
+
+Select EmployeeId, FirstName, LastName, Title 
+From employees 
+Where Title='Sales Support Agent';
+
+**The invoices associated with each sales agent.
+
+Select a.FirstName, a.LastName, c.InvoiceId
+From employees a
+Join customers b
+ON a.EmployeeId=b.SupportRepId
+Join invoices c
+ON b.CustomerId=c.CustomerId;
+
+**The invoice total, customer name, country, and sales agent name for all invoices and customers.
+
+Select b.FirstName, b.LastName, c.Total, b.Country, a.FirstName, a.LastName
+From employees a
+Join customers b
+ON a.EmployeeId=b.SupportRepId
+Join invoices c
+ON b.CustomerId=c.CustomerId;
+
+**The purchased track name AND artist name with each invoice line ID.
+
+Select a.Name as 'Artist Name', c.Name as 'Track Name', d.InvoiceLineId
+From artists a
+Join albums b
+On a.ArtistId=b.ArtistId
+Join tracks c
+On c.AlbumId=b.AlbumId
+Join invoice_items d
+On d.TrackId=c.TrackId;
+
+**All the tracks, including the album name, media type, and genre.
+
+Select a.Name as 'Track Name', c.Title as 'Album', b.Name as 'Media Type', d.Name as 'Genre'
+From tracks a
+Join media_types b
+On a.MediaTypeId=b.MediaTypeId
+Join albums c
+On a.AlbumId=c.AlbumId
+Join genres d
+On a.GenreId=d.GenreId;
+
+**The total sales made by each sales agent.
+
+Select a.FirstName, a.LastName, Round(SUM(c.total), 2) as 'Total Sales'
+From employees a
+Join customers b
+On a.EmployeeId=b.SupportRepId
+Join invoices c
+On b.CustomerId=c.CustomerId
+Where a.Title='Sales Support Agent'
+Group By a.FirstName;
+
+**The sales agent that made the most dollars in sales in 2009.
+
+Select a.FirstName, a.LastName, Round(SUM(c.Total), 2) AS 'Dollar Sales'
+From employees a
+Join customers b
+On a.EmployeeId=b.SupportRepId
+Join invoices c
+On b.CustomerId=c.CustomerId
+Where a.Title='Sales Support Agent' AND c.InvoiceDate LIKE '2009%'
+Group By a.FirstName
+Order By Round(SUM(c.Total), 2) DESC limit 1;
+
