@@ -21,7 +21,7 @@ INSERT INTO Designer_Clothes_LLC VALUES (15, "Versace", 80, "Jeans", "Fall", 202
 --total cost of all clothes in store inventory
 SELECT SUM (Price) FROM Designer_Clothes_LLC;
 
---total cost of clothes based on seaon of the year
+--total cost of clothes based on season of the year
 SELECT Season, SUM (Price) FROM Designer_Clothes_LLC GROUP BY Season;
 
 --clothes ordered by price from lowest to highest
